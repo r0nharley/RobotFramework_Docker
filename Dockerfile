@@ -55,23 +55,23 @@ RUN apt-get install -y  \
 
      
 
-# Install Chrome for Selenium
+# Install Chrome
 RUN curl https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -o /chrome.deb
 RUN dpkg -i /chrome.deb || apt-get install -yf
 RUN rm /chrome.deb
 
-# Install chromedriver for Selenium
+# Install Chromedriver
 RUN curl https://chromedriver.storage.googleapis.com/73.0.3683.20/chromedriver_linux64.zip -o /usr/local/bin/chromedriver
 RUN unzip -o /usr/local/bin/chromedriver -d /usr/local/bin
 RUN chmod 777 /usr/local/bin/chromedriver
 
-
+# Install Firefox
 RUN wget --no-verbose --output-document /tmp/firefox-65.0.2.tar.bz2 https://ftp.mozilla.org/pub/firefox/releases/65.0.2/linux-x86_64/en-US/firefox-65.0.2.tar.bz2 && \
     tar -xjf /tmp/firefox-65.0.2.tar.bz2 && \
     mv firefox /opt/firefox56 && \
     ln -s /opt/firefox56/firefox-bin /usr/bin/firefox
 
-
+# Install Geckodriver(headless Firefox)
 RUN GECKODRIVER_VERSION=`wget --no-verbose --output-document - https://api.github.com/repos/mozilla/geckodriver/releases/latest | grep tag_name | cut -d '"' -f 4` && \
     wget --no-verbose --output-document /tmp/geckodriver.tar.gz https://github.com/mozilla/geckodriver/releases/download/$GECKODRIVER_VERSION/geckodriver-$GECKODRIVER_VERSION-linux64.tar.gz && \
     tar --directory /opt -zxf /tmp/geckodriver.tar.gz && \
